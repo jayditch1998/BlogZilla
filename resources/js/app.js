@@ -12,4 +12,11 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Example');
+// require('./components/Example');
+
+import ReactDOM from 'react-dom';
+import Index from './components/Index';
+
+if (document.getElementById('app')) {
+    ReactDOM.render(<Index />, document.getElementById('app'));
+}
