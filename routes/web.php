@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\admin\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/posts', [PostController:: class, 'posts']);
+Route::get('/add-post', [PostController:: class, 'addPost'])->name('add-post');
+Route::post('/post-add-post', [PostController:: class, 'postAddPost'])->name('post-add-post');
