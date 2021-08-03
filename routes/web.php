@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/posts', [PostController:: class, 'posts']);
+Route::get('/posts', [PostController:: class, 'posts'])->name('posts');
 Route::get('/add-post', [PostController:: class, 'addPost'])->name('add-post');
 Route::post('/post-add-post', [PostController:: class, 'postAddPost'])->name('post-add-post');
+Route::get('/edit-post/{id}', [PostController:: class, 'editPost'])->name('edit-post');
+Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');

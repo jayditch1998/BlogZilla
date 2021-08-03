@@ -24,7 +24,7 @@
       <th scope="row">{{$post->id}}</th>
       <td>{{$post->title}}</td>
       <td>{{$post->body}}</td>
-      <td><button type="button" class="btn btn-primary btn-sm">Edit</button>
+      <td><a href="{{route('edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>
       <button type="button" class="btn btn-primary btn-sm">Delete</button></td>
     </tr>
     @endforeach
