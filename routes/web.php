@@ -28,4 +28,8 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::get('/edit-post/{id}', [PostController:: class, 'editPost'])->name('edit-post');
     Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [PostController:: class, 'deletePost'])->name('delete-post');
+
+    Route::get('/authors', [UserController:: class, 'authors'])->name('authors');
+    Route::get('/add/author', [UserController:: class, 'addAuthor'])->name('add-author');
+    Route::post('/post/add/author', [UserController:: class, 'postAddAuthor'])->name('post-add-author');
 });

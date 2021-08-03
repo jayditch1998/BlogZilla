@@ -35,4 +35,35 @@ class UserController extends Controller
         Auth::logout(); 
         return redirect()->route('admin-login');
 }
+
+    public function authors(){
+        $authors = User::where('role', '2')->get();
+        return view('admin.authors', compact('authors'));
+    }
+
+    public function addAuthor(){
+        return view('admin.add-author');
+    }
+
+    public function postAddAuthor(Request $request){
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $middleName = $request->middleName;
+        $email = $request->email;
+        $mobile = $request->mobile;
+        
+        $password = $request->password;
+        $hash = Hash::make($password);
+
+        $addAuthor = User::create([
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'middleName' => $middleName,
+            'email' => $email,
+            'mobile' => $mobile,
+            'role' => '2', //author
+            'password' => $hash,
+        ]);
+        return redirect()->route('admin-authors');
+    }
 }

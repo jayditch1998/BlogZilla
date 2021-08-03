@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Posts</title>
-</head>
-<body>
+@extends('admin.layouts.app')
+@section('title', 'Posts | Admin')
+@section('content')
+<h1>Posts</h1>
 <a href="{{route('admin-add-post')}}" class="btn btn-outline-secondary">Upload Post</a><br>
 <table class="table">
   <thead>
@@ -30,7 +24,9 @@
     @endforeach
   </tbody>
 </table>
-</body>
+
+@endsection
+@section('scripts')
 <script type="text/javascript">
     $('.show_confirm').click(function(e) {
         if(!confirm('Are you sure you want to delete this?')) {
@@ -38,4 +34,4 @@
         }
     });
 </script>
-</html>
+@endsection
