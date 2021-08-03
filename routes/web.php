@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\PostController;
+use App\Http\Controllers\admin\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,9 @@ use App\Http\Controllers\admin\PostController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/admin/login', [UserController:: class, 'login'])->name('admin-login');
+Route::post('admin/post/login', [UserController:: class, 'adminPostLogin'])->name('admin-post-login');
+Route::get('admin/logout', [UserController:: class, 'adminLogout'])->name('admin-logout');
 
 Route::get('/posts', [PostController:: class, 'posts'])->name('posts');
 Route::get('/add-post', [PostController:: class, 'addPost'])->name('add-post');
