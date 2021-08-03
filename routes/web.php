@@ -27,4 +27,5 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::post('/post-add-post', [PostController:: class, 'postAddPost'])->name('post-add-post');
     Route::get('/edit-post/{id}', [PostController:: class, 'editPost'])->name('edit-post');
     Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');
+    Route::get('/post/delete/{id}', [PostController:: class, 'deletePost'])->name('delete-post');
 });

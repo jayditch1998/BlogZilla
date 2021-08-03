@@ -8,7 +8,7 @@
     <title>Posts</title>
 </head>
 <body>
-<a href="{{route('add-post')}}" class="btn btn-outline-secondary">Upload Post</a><br>
+<a href="{{route('admin-add-post')}}" class="btn btn-outline-secondary">Upload Post</a><br>
 <table class="table">
   <thead>
     <tr>
@@ -24,8 +24,8 @@
       <th scope="row">{{$post->id}}</th>
       <td>{{$post->title}}</td>
       <td>{{$post->body}}</td>
-      <td><a href="{{route('edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>
-      <button type="button" class="btn btn-primary btn-sm">Delete</button></td>
+      <td><a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>
+      <a href="{{route('admin-delete-post', $post->id)}}" class="btn btn-primary btn-sm">Delete</a></td>
     </tr>
     @endforeach
   </tbody>

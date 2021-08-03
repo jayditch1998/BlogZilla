@@ -11,7 +11,7 @@
 <br>
 <br>
 <br>
-<form action="{{route('post-edit-post')}}" method="POST">
+<form action="{{route('admin-post-edit-post')}}" method="POST">
 @csrf
   <div class="mb-3">
       <input type = "hidden" value="{{$post->id}}" name="id">

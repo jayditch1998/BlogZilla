@@ -27,7 +27,7 @@ class UserController extends Controller
         if (!Hash::check($password, $user->password)) return redirect()->back();
 
         Auth::login($user);
-        return redirect()->route('posts');
+        return redirect()->route('admin-posts');
         
     }
     public function adminLogout()

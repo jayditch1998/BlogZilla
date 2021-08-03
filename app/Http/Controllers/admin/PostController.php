@@ -25,7 +25,7 @@ class PostController extends Controller
             'title' => $title,
             'body' => $body,
         ]);
-        return redirect()->route('posts');
+        return redirect()->route('admin-posts');
     }
 
     public function editPost($id){
@@ -46,14 +46,14 @@ class PostController extends Controller
         ];
         DB::table('posts')->where('id',$request->id)->update($updatePost);
 
-        return redirect()->route('posts');
+        return redirect()->route('admin-posts');
     }
 
     public function deletePost($id){
         $post = Post::where('id', $id)->first();
         $post->delete();
 
-        return redirect()->route('posts');
+        return redirect()->route('admin-posts');
     }
 
     // public function delete($id){
