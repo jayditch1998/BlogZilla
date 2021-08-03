@@ -21,8 +21,10 @@ Route::get('/admin/login', [UserController:: class, 'login'])->name('admin-login
 Route::post('admin/post/login', [UserController:: class, 'adminPostLogin'])->name('admin-post-login');
 Route::get('admin/logout', [UserController:: class, 'adminLogout'])->name('admin-logout');
 
-Route::get('/posts', [PostController:: class, 'posts'])->name('posts');
-Route::get('/add-post', [PostController:: class, 'addPost'])->name('add-post');
-Route::post('/post-add-post', [PostController:: class, 'postAddPost'])->name('post-add-post');
-Route::get('/edit-post/{id}', [PostController:: class, 'editPost'])->name('edit-post');
-Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');
+Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() {
+    Route::get('/posts', [PostController:: class, 'posts'])->name('posts');
+    Route::get('/add-post', [PostController:: class, 'addPost'])->name('add-post');
+    Route::post('/post-add-post', [PostController:: class, 'postAddPost'])->name('post-add-post');
+    Route::get('/edit-post/{id}', [PostController:: class, 'editPost'])->name('edit-post');
+    Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');
+});

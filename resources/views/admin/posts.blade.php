@@ -31,4 +31,11 @@
   </tbody>
 </table>
 </body>
+<script type="text/javascript">
+    $('.show_confirm').click(function(e) {
+        if(!confirm('Are you sure you want to delete this?')) {
+            e.preventDefault();
+        }
+    });
+</script>
 </html>
