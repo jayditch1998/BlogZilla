@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\admin\AuthorController;
+use App\Http\Controllers\AuthorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

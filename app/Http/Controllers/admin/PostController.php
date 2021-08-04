@@ -20,8 +20,11 @@ class PostController extends Controller
     public function postAddPost(Request $request){
         $title = $request->title;
         $body = $request->body;
+        $user_id = auth()->user()->id;
 
         $createPost = Post::create([
+            'author_id'=> $user_id,
+            'publisher' => 'Admin',
             'title' => $title,
             'body' => $body,
         ]);
@@ -36,8 +39,10 @@ class PostController extends Controller
     public function postUpdatePost(Request $request){
         $title = $request->title;
         $body = $request->body;
+        $user_id = auth()->user()->id;
 
         $updatePost =[
+            
             'title' => $title,
             'body' => $body
         ];
