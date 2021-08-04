@@ -25,7 +25,7 @@
       <td>{{$author->status}}</td>
       <td>{{$author->lastLogin}}</td>
       <td><a href="{{route('admin-edit-author', $author->id)}}" class="btn btn-primary btn-sm">Edit</a>
-      <a href="{{route('admin-delete-post', $author->id)}}" class="btn btn-primary btn-sm">Delete</a></td>
+      <a href="{{route('admin-delete-author', $author->id)}}" class="btn btn-primary btn-sm">Delete</a></td>
     </tr>
     @endforeach
   </tbody>

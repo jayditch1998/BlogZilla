@@ -34,5 +34,6 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::post('/post/add/author', [UserController:: class, 'postAddAuthor'])->name('post-add-author');
     Route::get('/edit/author/{id}', [UserController:: class, 'editAuthor'])->name('edit-author');
     Route::post('/update/author', [UserController:: class, 'updateAuthor'])->name('update-author');
+    Route::get('/author/delete/{id}', [UserController:: class, 'deleteAuthor'])->name('delete-author');
 
 });

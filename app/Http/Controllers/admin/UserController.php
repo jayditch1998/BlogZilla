@@ -90,4 +90,11 @@ class UserController extends Controller
         DB::table('users')->where('id',$id)->update($updateAuthor);
         return redirect()->route('admin-authors');
     }
+
+    public function deleteAuthor($id){
+        $author = User::where('id', $id)->first();
+        $author->delete();
+
+        return redirect()->route('admin-authors');
+    }
 }
