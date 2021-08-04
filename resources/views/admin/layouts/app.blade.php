@@ -25,6 +25,11 @@
       <li class="nav-item">
         <a class="nav-link" href="{{route('admin-users')}}">Users</a>
       </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('admin-logout')}}">Logout</a>
+      </li>
     </ul>
   </div>
 </nav>
