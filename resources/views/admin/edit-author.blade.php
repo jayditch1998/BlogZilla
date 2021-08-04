@@ -32,7 +32,7 @@
     <input type="number" name="mobile" value="{{$author->mobile}}" class="form-control" >
   </div>
 
-  <button type="button" class="btn btn-danger">Cancel</button>
-  <a href="{{ url()->previous() }}">Cancel</a>
+  <a class="btn btn-danger" href="{{ url()->previous() }}">Cancel</a>
+  <button type="submit" class="btn btn-success">Submit</button>
 </form>
 @endsection

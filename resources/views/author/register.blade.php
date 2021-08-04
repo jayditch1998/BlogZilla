@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <title>Register | Author</title>
+    <title>Register</title>
 </head>
 <body style="max-width: 500px;margin: auto;">
-    <h2>Register as Author</h2>
+    <h2>Register</h2>
     <br>
-<form method="POST" action="{{ route('author-post-register')}}">
+<form method="POST" action="{{ route('post-register')}}">
     @csrf    
 <!-- <label for="">First Name</label> -->
     <input placeholder="First Name" name="firstName" type="text" />
@@ -36,6 +36,13 @@
     <br>
     <!-- <label for="">First Name</label> -->
     <input placeholder="Password" name="password" type="password" />
+    <br>
+    <br>
+    <select name="role" id="">
+        <option> Select Role </option>
+        <option value="3">User</option>
+        <option value="2">Author</option>
+    </select>
     <br>
     <br>
     <button type="submit">Submit</button>

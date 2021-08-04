@@ -36,7 +36,7 @@
     <input type="text" value ="123456" name="password" class="form-control" >
   </div>
 
-  <button type="button" class="btn btn-danger">Cancel</button>
-  <a href="{{ url()->previous() }}">Cancel</a>
+  <a class="btn btn-danger" href="{{ url()->previous() }}">Cancel</a>
+  <button type="submit" class="btn btn-success">Submit</button>
 </form>
 @endsection

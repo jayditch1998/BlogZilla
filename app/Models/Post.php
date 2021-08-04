@@ -16,4 +16,8 @@ class Post extends Model
         'author_id',
         'publisher',
     ];
+
+    public function likes(){
+        return $this->hasMany('App\Models\Likes');
+    }
 }

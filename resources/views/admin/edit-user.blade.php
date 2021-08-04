@@ -32,7 +32,7 @@
     <input type="number" name="mobile" value="{{$user->mobile}}" class="form-control" >
   </div>
 
-  <a href="{{ url()->previous() }}">Cancel</a>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <a class="btn btn-danger" href="{{ url()->previous() }}">Cancel</a>
+  <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-success">Submit</button>
 </form>
 @endsection

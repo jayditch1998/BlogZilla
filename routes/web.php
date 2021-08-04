@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\ViewerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,8 +49,8 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
 Route::get('/author/login', [AuthorController:: class, 'login'])->name('author-login');
 Route::post('author/post/login', [AuthorController:: class, 'authorPostLogin'])->name('author-post-login');
 Route::get('author/logout', [AuthorController:: class, 'authorLogout'])->name('author-logout');
-Route::get('author/register', [AuthorController:: class, 'register'])->name('author-register');
-Route::post('author/post/register', [AuthorController:: class, 'postRegister'])->name('author-post-register');
+Route::get('register', [AuthorController:: class, 'register'])->name('register');
+Route::post('/post/register', [AuthorController:: class, 'postRegister'])->name('post-register');
 
 Route::name('author-')->middleware(['author'])->prefix('author')->group(function() {
     Route::get('/dashboard', [AuthorController:: class, 'dashboard'])->name('dashboard');
@@ -61,3 +62,9 @@ Route::name('author-')->middleware(['author'])->prefix('author')->group(function
     Route::get('/post/delete/{id}', [AuthorController:: class, 'deletePost'])->name('delete-post');
 
 });
+
+Route::get('/login', [ViewerController:: class, 'login'])->name('login');
+Route::get('/', [ViewerController:: class, 'index'])->name('home');
+
+Route::get('like/{id}', [ViewerController:: class, 'like'])->name('like');
+Route::get('unlike/{id}', [ViewerController:: class, 'unlike'])->name('unlike');

@@ -23,11 +23,15 @@ class AuthorController extends Controller
         $password = $request->password;
         $user = User::where('email', $email)->first();
         if(!$user) return redirect()->back();
-        if($user->role != '2') return redirect()->back();
+        if($user->role == '1') return redirect()->back();
         if (!Hash::check($password, $user->password)) return redirect()->back();
 
         Auth::login($user);
+        if($user->role == '2'){
         return redirect()->route('author-dashboard');
+        }elseif($user->role == '3'){
+            return redirect()->route('home');
+        }
         
     }
 
@@ -48,6 +52,7 @@ class AuthorController extends Controller
         $middleName = $request->middleName;
         $email = $request->email;
         $mobile = $request->mobile;
+        $role = $request->role;
         
         $password = $request->password;
         $hash = Hash::make($password);
@@ -58,11 +63,15 @@ class AuthorController extends Controller
             'middleName' => $middleName,
             'email' => $email,
             'mobile' => $mobile,
-            'role' => '2', //author
+            'role' => $role, //author
             'password' => $hash,
         ]);
         Auth::login($user);
-        return redirect()->route('author-dashboard');
+        if($role == 2){
+            return redirect()->route('author-dashboard');
+        }else{
+        return redirect()->route('home');
+        }
     }
 
     public function dashboard(){
