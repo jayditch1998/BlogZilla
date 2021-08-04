@@ -66,6 +66,17 @@ class AuthorController extends Controller
     }
 
     public function dashboard(){
+       
         return view('author.dashboard');
+    }
+
+    public function posts(){
+        $user_id = auth()->user()->id;
+        $posts = Post::where('id', $user_id)->whereNull('deleted_at')->get();
+        return view('author.posts', compact('posts'));
+    }
+    
+    public function addPost(){
+        return view('author.add-post');
     }
 }
