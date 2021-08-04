@@ -5,7 +5,7 @@
 <br>
 <h2>Add Post</h2>
 <br>
-<form action="{{route('admin-post-add-post')}}" method="POST">
+<form action="{{route('author-post-add-post')}}" method="POST">
 @csrf
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Title</label>

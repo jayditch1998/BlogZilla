@@ -55,5 +55,6 @@ Route::name('author-')->middleware(['author'])->prefix('author')->group(function
     Route::get('/dashboard', [AuthorController:: class, 'dashboard'])->name('dashboard');
     Route::get('/posts', [AuthorController:: class, 'posts'])->name('posts');
     Route::get('add/post', [AuthorController:: class, 'addPost'])->name('add-post');
+    Route::post('/post-add-post', [AuthorController:: class, 'postAddPost'])->name('post-add-post');
 
 });

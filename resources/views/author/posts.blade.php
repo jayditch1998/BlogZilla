@@ -18,8 +18,8 @@
     <tr>
       <th scope="row">{{$post->id}}</th>
       <td>{{$post->title}}</td>
-      <td>{{$post->created_at}}</td>
       <td>{{$post->body}}</td>
+      <td>{{date('M d Y h:i a', strtotime($post->created_at));}}</td>
       <td>
         <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-primary btn-sm">View</a>
         <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>

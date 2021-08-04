@@ -72,11 +72,33 @@ class AuthorController extends Controller
 
     public function posts(){
         $user_id = auth()->user()->id;
-        $posts = Post::where('id', $user_id)->whereNull('deleted_at')->get();
+        // $publisher = auth()->user()->firstName.' '.auth()->user()->lastName;
+
+        // dd($publisher);
+        // dd($user_id);
+        $posts = Post::where('author_id', $user_id)->get();
+        // dd($posts);
         return view('author.posts', compact('posts'));
     }
     
     public function addPost(){
         return view('author.add-post');
+    }
+
+    public function postAddPost(Request $request){
+        $title = $request->title;
+        $body = $request->body;
+        $author_id = auth()->user()->id;
+        $publisher = auth()->user()->firstName.' '.auth()->user()->lastName;
+
+        // dd($publisher);
+
+        $createPost = Post::create([
+            'author_id' => $author_id,
+            'publisher' => $publisher,
+            'title' => $title,
+            'body' => $body,
+        ]);
+        return redirect()->route('author-posts');
     }
 }
