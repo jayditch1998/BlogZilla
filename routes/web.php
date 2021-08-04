@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\AuthorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +15,7 @@ use App\Http\Controllers\admin\UserController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 Route::get('/admin/login', [UserController:: class, 'login'])->name('admin-login');
@@ -42,5 +43,13 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::get('/edit/user/{id}', [UserController:: class, 'editUser'])->name('edit-user');
     Route::post('/update/user', [UserController:: class, 'updateUser'])->name('update-user');
     Route::get('/user/delete/{id}', [UserController:: class, 'deleteUser'])->name('delete-user');
-    
+});
+
+Route::get('/author/login', [AuthorController:: class, 'login'])->name('author-login');
+Route::post('author/post/login', [AuthorController:: class, 'authorPostLogin'])->name('author-post-login');
+Route::get('author/logout', [AuthorController:: class, 'authorLogout'])->name('author-logout');
+
+Route::name('author-')->middleware(['author'])->prefix('author')->group(function() {
+    Route::get('/dashboard', [AuthorController:: class, 'dashboard'])->name('dashboard');
+
 });
