@@ -13,4 +13,8 @@ class Likes extends Model
         'post_id',
         'is_like',
     ];
+
+    public function post(){
+        return $this->belongsTo(Post::class);
+    }
 }

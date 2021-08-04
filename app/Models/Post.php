@@ -18,6 +18,6 @@ class Post extends Model
     ];
 
     public function likes(){
-        return $this->hasMany('App\Models\Likes');
+        return $this->hasMany(Likes::class);
     }
 }
