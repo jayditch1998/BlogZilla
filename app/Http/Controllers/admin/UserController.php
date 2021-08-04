@@ -66,4 +66,28 @@ class UserController extends Controller
         ]);
         return redirect()->route('admin-authors');
     }
+
+    public function editAuthor($id){
+        $author = User::where('role', '2')->where('id', $id)->first();
+        return view('admin.edit-author', compact('author'));
+    }
+
+    public function updateAuthor(Request $request){
+        $id = $request->id;
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $middleName = $request->middleName;
+        $email = $request->email;
+        $mobile = $request->mobile;
+
+        $updateAuthor =[
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'middleName' => $middleName,
+            'email' => $email,
+            'mobile' => $mobile
+        ];
+        DB::table('users')->where('id',$id)->update($updateAuthor);
+        return redirect()->route('admin-authors');
+    }
 }

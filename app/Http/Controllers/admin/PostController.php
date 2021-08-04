@@ -29,10 +29,7 @@ class PostController extends Controller
     }
 
     public function editPost($id){
-        $posts = Post::where('id', $id)->get();
-        foreach($posts as $post){
-
-        }
+        $post = Post::where('id', $id)->first();
         return view('admin.edit-post', compact('post'));
     }
 
