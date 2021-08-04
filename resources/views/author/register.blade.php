@@ -39,7 +39,7 @@
     <br>
     <br>
     <button type="submit">Submit</button>
-    <button type="button">Cancel</button>
+    <a href="{{ url()->previous() }}">Cancel</a>
 </form>
 
 </body>

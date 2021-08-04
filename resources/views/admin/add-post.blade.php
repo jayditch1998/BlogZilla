@@ -15,6 +15,6 @@
     <textarea type="text" name="body" class="form-control" id="exampleInputPassword1" style="height:200px;"></textarea>
   </div>
   <button type="button" class="btn btn-danger">Cancel</button>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <a href="{{ url()->previous() }}">Cancel</a>
 </form>
 @endsection

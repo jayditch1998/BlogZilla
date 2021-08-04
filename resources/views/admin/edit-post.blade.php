@@ -15,7 +15,7 @@
     <label for="exampleInputPassword1" class="form-label">Body</label>
     <textarea type="text" name="body" class="form-control" id="exampleInputPassword1" style="height:200px;">{{$post->body}}</textarea>
   </div>
-  <button type="button" class="btn btn-danger">Cancel</button>
+  <a href="{{ url()->previous() }}">Cancel</a>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 @endsection
