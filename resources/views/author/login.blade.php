@@ -17,6 +17,6 @@
     <input type="password" name="password" placeholder="Enter Password">
     <button type="submit">Login</button
 </form>
-<a href="#">Register</a>
+<a href="{{route('author-register')}}">Register</a>
 </body>
 </html>

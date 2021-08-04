@@ -35,7 +35,35 @@ class AuthorController extends Controller
     {
         Auth::logout(); 
         return redirect()->route('author-login');
-    }   
+    }  
+    
+    public function register(){
+        return view('author.register');
+    }
+
+    public function postRegister(Request $request){
+        // $id = $request->id;
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $middleName = $request->middleName;
+        $email = $request->email;
+        $mobile = $request->mobile;
+        
+        $password = $request->password;
+        $hash = Hash::make($password);
+
+        $user = User::create([
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'middleName' => $middleName,
+            'email' => $email,
+            'mobile' => $mobile,
+            'role' => '2', //author
+            'password' => $hash,
+        ]);
+        Auth::login($user);
+        return redirect()->route('author-dashboard');
+    }
 
     public function dashboard(){
         return view('author.dashboard');
