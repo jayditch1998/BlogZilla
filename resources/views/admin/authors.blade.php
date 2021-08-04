@@ -2,7 +2,7 @@
 @section('title', 'Authors | Admin')
 @section('content')
 <H1>Authors</H1>
-<a href="{{route('admin-add-author')}}" class="btn btn-outline-secondary">Add Authors</a><br>
+<a href="{{route('admin-add-author')}}" class="btn btn-outline-secondary">Add Author</a><br>
 <table class="table">
   <thead>
     <tr>

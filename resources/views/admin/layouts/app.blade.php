@@ -23,7 +23,7 @@
         <a class="nav-link" href="{{route('admin-authors')}}">Authors</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{route('admin-posts')}}">Users</a>
+        <a class="nav-link" href="{{route('admin-users')}}">Users</a>
       </li>
     </ul>
   </div>

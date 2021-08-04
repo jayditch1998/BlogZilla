@@ -97,4 +97,67 @@ class UserController extends Controller
 
         return redirect()->route('admin-authors');
     }
+
+    public function users(){
+        $users = User::where('role', '3')->get();
+
+        return view('admin.users',compact('users'));
+    }
+
+    public function addUser(){
+        return view('admin.add-user');
+    }
+
+    public function postAddUser(Request $request){
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $middleName = $request->middleName;
+        $email = $request->email;
+        $mobile = $request->mobile;
+        
+        $password = $request->password;
+        $hash = Hash::make($password);
+
+        $addAuthor = User::create([
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'middleName' => $middleName,
+            'email' => $email,
+            'mobile' => $mobile,
+            'role' => '3', //user
+            'password' => $hash,
+        ]);
+        return redirect()->route('admin-users');
+    }
+
+    public function editUser($id){
+        $user = User::where('role', '3')->where('id', $id)->first();
+        return view('admin.edit-user', compact('user'));
+    }
+
+    public function updateUser(Request $request){
+        $id = $request->id;
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $middleName = $request->middleName;
+        $email = $request->email;
+        $mobile = $request->mobile;
+
+        $updateUser =[
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'middleName' => $middleName,
+            'email' => $email,
+            'mobile' => $mobile
+        ];
+        DB::table('users')->where('id',$id)->update($updateUser);
+        return redirect()->route('admin-users');
+    }
+
+    public function deleteUser($id){
+        $user = User::where('id', $id)->first();
+        $user->delete();
+
+        return redirect()->route('admin-users');
+    }
 }
