@@ -101,4 +101,30 @@ class AuthorController extends Controller
         ]);
         return redirect()->route('author-posts');
     }
+
+    public function editPost($id){
+        $post = Post::where('id', $id)->first();
+        return view('author.edit-post', compact('post'));
+    }
+    
+    public function postUpdatePost(Request $request){
+        $title = $request->title;
+        $body = $request->body;
+
+        $updatePost =[
+            'title' => $title,
+            'body' => $body
+        ];
+        DB::table('posts')->where('id',$request->id)->update($updatePost);
+
+        return redirect()->route('author-posts');
+    }
+
+    public function deletePost($id){
+        $post = Post::where('id', $id)->first();
+        $post->delete();
+
+        return redirect()->route('author-posts');
+    }
+
 }

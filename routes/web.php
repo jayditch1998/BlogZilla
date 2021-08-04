@@ -56,5 +56,8 @@ Route::name('author-')->middleware(['author'])->prefix('author')->group(function
     Route::get('/posts', [AuthorController:: class, 'posts'])->name('posts');
     Route::get('add/post', [AuthorController:: class, 'addPost'])->name('add-post');
     Route::post('/post-add-post', [AuthorController:: class, 'postAddPost'])->name('post-add-post');
+    Route::get('/edit-post/{id}', [AuthorController:: class, 'editPost'])->name('edit-post');
+    Route::post('/post-edit-post', [AuthorController:: class, 'postUpdatePost'])->name('post-edit-post');
+    Route::get('/post/delete/{id}', [AuthorController:: class, 'deletePost'])->name('delete-post');
 
 });

@@ -21,9 +21,9 @@
       <td>{{$post->body}}</td>
       <td>{{date('M d Y h:i a', strtotime($post->created_at));}}</td>
       <td>
-        <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-primary btn-sm">View</a>
-        <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>
-        <a href="{{route('admin-delete-post', $post->id)}}" class="btn btn-primary btn-sm">Delete</a>
+        <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-success btn-sm">View</a>
+        <a href="{{route('author-edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>
+        <a href="{{route('author-delete-post', $post->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">Delete</a>
     </td>
     </tr>
     @endforeach
