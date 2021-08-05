@@ -1,5 +1,5 @@
-@extends('admin.layouts.app')
-@section('title', 'View Post | Admin')
+@extends('author.layouts.app')
+@section('title', 'View Post | Author')
 @section('content')
 <br>
 <br>

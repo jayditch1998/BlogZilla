@@ -16,6 +16,13 @@ class AuthorController extends Controller
         // return $password;
         return view('author.login');
     }
+    function authenticated(Request $request, $user)
+{
+    $user->update([
+        'lastLogin' => Carbon::now()->toDateTimeString()
+        // 'last_login_ip' => $request->getClientIp()
+    ]);
+}
 
     public function authorPostLogin(Request $request)
     {
@@ -25,7 +32,10 @@ class AuthorController extends Controller
         if(!$user) return redirect()->back();
         if($user->role == '1') return redirect()->back();
         if (!Hash::check($password, $user->password)) return redirect()->back();
-
+        $user->update([
+            'lastLogin' => Carbon::now()->toDateTimeString()
+            // 'last_login_ip' => $request->getClientIp()
+        ]);
         Auth::login($user);
         if($user->role == '2'){
         return redirect()->route('author-dashboard');
@@ -38,7 +48,7 @@ class AuthorController extends Controller
     public function authorLogout()
     {
         Auth::logout(); 
-        return redirect()->route('author-login');
+        return redirect()->route('login');
     }  
     
     public function register(){
@@ -89,6 +99,11 @@ class AuthorController extends Controller
         // dd($posts);
         return view('author.posts', compact('posts'));
     }
+
+    public function viewPost($id){
+        $post = Post::where('id', $id)->first();
+        return view('author.view-post', compact('post'));
+    }
     
     public function addPost(){
         return view('author.add-post');
@@ -99,6 +114,8 @@ class AuthorController extends Controller
         $body = $request->body;
         $author_id = auth()->user()->id;
         $publisher = auth()->user()->firstName.' '.auth()->user()->lastName;
+        $imgName = time().'.'.$request->img->extension();
+        $request->img->move(public_path('images'), $imgName);
 
         // dd($publisher);
 
@@ -107,6 +124,7 @@ class AuthorController extends Controller
             'publisher' => $publisher,
             'title' => $title,
             'body' => $body,
+            'img' => 'images/'.$imgName,
         ]);
         return redirect()->route('author-posts');
     }

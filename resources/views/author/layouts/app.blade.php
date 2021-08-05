@@ -25,7 +25,7 @@
         <a class="nav-link" href="#">| {{Auth::user()->firstName}} {{Auth::user()->lastName}} |</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{route('author-logout')}}">Logout</a>
+        <a class="nav-link" href="{{route('logout')}}">Logout</a>
       </li>
     </ul>
   </div>

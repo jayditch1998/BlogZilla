@@ -49,7 +49,7 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
 
 Route::get('/author/login', [AuthorController:: class, 'login'])->name('author-login');
 Route::post('author/post/login', [AuthorController:: class, 'authorPostLogin'])->name('author-post-login');
-Route::get('author/logout', [AuthorController:: class, 'authorLogout'])->name('author-logout');
+Route::get('/logout', [AuthorController:: class, 'authorLogout'])->name('logout');
 Route::get('register', [AuthorController:: class, 'register'])->name('register');
 Route::post('/post/register', [AuthorController:: class, 'postRegister'])->name('post-register');
 
@@ -58,6 +58,7 @@ Route::name('author-')->middleware(['author'])->prefix('author')->group(function
     Route::get('/posts', [AuthorController:: class, 'posts'])->name('posts');
     Route::get('add/post', [AuthorController:: class, 'addPost'])->name('add-post');
     Route::post('/post-add-post', [AuthorController:: class, 'postAddPost'])->name('post-add-post');
+    Route::get('/view-post/{id}', [AuthorController:: class, 'viewPost'])->name('view-post');
     Route::get('/edit-post/{id}', [AuthorController:: class, 'editPost'])->name('edit-post');
     Route::post('/post-edit-post', [AuthorController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [AuthorController:: class, 'deletePost'])->name('delete-post');

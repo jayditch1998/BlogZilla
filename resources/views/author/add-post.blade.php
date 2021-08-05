@@ -5,7 +5,7 @@
 <br>
 <h2>Add Post</h2>
 <br>
-<form action="{{route('author-post-add-post')}}" method="POST">
+<form action="{{route('author-post-add-post')}}" method="POST" enctype="multipart/form-data">
 @csrf
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Title</label>
@@ -15,7 +15,30 @@
     <label for="exampleInputPassword1" class="form-label">Body</label>
     <textarea type="text" name="body" class="form-control" id="exampleInputPassword1" style="height:200px;"></textarea>
   </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Image</label>
+    <input type="file" name="img" class="form-control" onchange="readURL(this);" accept=".png, .jpg, .jpeg">
+    <img id="blah" src="#" alt="image will display here" />
+  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
   <a class="btn btn-danger" href="{{ url()->previous() }}">Cancel</a>
 </form>
+@endsection
+@section('scripts')
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<!-- <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script> -->
+<script type="text/javascript">
+	 function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+</script>
 @endsection
