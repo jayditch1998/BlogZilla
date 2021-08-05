@@ -10,6 +10,7 @@
       <th scope="col">Title</th>
       <th scope="col">Description</th>
       <th scope="col">Published</th>
+      <th scope="col">Likes</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
       <td>{{$post->title}}</td>
       <td>{{$post->body}}</td>
       <td>{{date('M d Y h:i a', strtotime($post->created_at));}}</td>
+      <td>{{$post->likes->where('is_like',1)->count()}}</td>
       <td>
         <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-success btn-sm">View</a>
         <a href="{{route('author-edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>

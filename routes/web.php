@@ -27,6 +27,7 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::get('/posts', [PostController:: class, 'posts'])->name('posts');
     Route::get('/add-post', [PostController:: class, 'addPost'])->name('add-post');
     Route::post('/post-add-post', [PostController:: class, 'postAddPost'])->name('post-add-post');
+    Route::get('/view-post/{id}', [PostController:: class, 'viewPost'])->name('view-post');
     Route::get('/edit-post/{id}', [PostController:: class, 'editPost'])->name('edit-post');
     Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [PostController:: class, 'deletePost'])->name('delete-post');
@@ -53,18 +54,20 @@ Route::get('register', [AuthorController:: class, 'register'])->name('register')
 Route::post('/post/register', [AuthorController:: class, 'postRegister'])->name('post-register');
 
 Route::name('author-')->middleware(['author'])->prefix('author')->group(function() {
-    Route::get('/dashboard', [AuthorController:: class, 'dashboard'])->name('dashboard');
+    Route::get('/', [AuthorController:: class, 'dashboard'])->name('dashboard');
     Route::get('/posts', [AuthorController:: class, 'posts'])->name('posts');
     Route::get('add/post', [AuthorController:: class, 'addPost'])->name('add-post');
     Route::post('/post-add-post', [AuthorController:: class, 'postAddPost'])->name('post-add-post');
     Route::get('/edit-post/{id}', [AuthorController:: class, 'editPost'])->name('edit-post');
     Route::post('/post-edit-post', [AuthorController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [AuthorController:: class, 'deletePost'])->name('delete-post');
-
 });
 
 Route::get('/login', [ViewerController:: class, 'login'])->name('login');
-Route::get('/', [ViewerController:: class, 'index'])->name('home');
 
-Route::get('like/{id}', [ViewerController:: class, 'like'])->name('like');
-Route::get('unlike/{id}', [ViewerController:: class, 'unlike'])->name('unlike');
+Route::middleware(['user'])->group(function() {
+
+    Route::get('unlike/{id}', [ViewerController:: class, 'unlike'])->name('unlike');
+    Route::get('/', [ViewerController:: class, 'index'])->name('home');
+    Route::get('like/{id}', [ViewerController:: class, 'like'])->name('like');
+});

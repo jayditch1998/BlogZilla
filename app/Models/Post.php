@@ -14,7 +14,8 @@ class Post extends Model
         'title',
         'body',
         'author_id',
-        'publisher',
+        'author',
+        'img',
     ];
 
     public function likes(){

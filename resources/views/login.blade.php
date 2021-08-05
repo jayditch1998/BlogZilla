@@ -10,11 +10,14 @@
     <h2>User | Login</h2>
 <form method="post" action="{{route('author-post-login')}}">
 @csrf
-<label>Email</label>
+<label>Email</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <input type="text" name="email" placeholder="Enter Email">
-
-<label>Password</label>
+<br>
+<br>
+<label>Password</label>&nbsp&nbsp
     <input type="password" name="password" placeholder="Enter Password">
+    <br>
+    <br>
     <button type="submit">Login</button
 </form>
 <a href="{{route('register')}}">Register</a>

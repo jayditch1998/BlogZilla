@@ -13,6 +13,11 @@ class PostController extends Controller
         return view('admin.posts', compact('posts'));
     }
 
+    public function viewPost($id){
+        $post = Post::where('id', $id)->first();
+        return view('admin.view-post', compact('post'));
+    }
+
     public function addPost(){
         return view('admin.add-post');
     }
@@ -21,12 +26,15 @@ class PostController extends Controller
         $title = $request->title;
         $body = $request->body;
         $user_id = auth()->user()->id;
+        $imgName = time().'.'.$request->img->extension();
+        $request->img->move(public_path('images'), $imgName);
 
         $createPost = Post::create([
             'author_id'=> $user_id,
-            'publisher' => 'Admin',
+            'author' => 'Admin',
             'title' => $title,
             'body' => $body,
+            'img' => 'images/'.$imgName,
         ]);
         return redirect()->route('admin-posts');
     }

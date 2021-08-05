@@ -85,7 +85,7 @@ class AuthorController extends Controller
 
         // dd($publisher);
         // dd($user_id);
-        $posts = Post::where('author_id', $user_id)->get();
+        $posts = Post::where('author_id', $user_id)->with('likes')->get();
         // dd($posts);
         return view('author.posts', compact('posts'));
     }

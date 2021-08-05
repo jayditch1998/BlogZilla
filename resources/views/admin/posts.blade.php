@@ -7,10 +7,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Publisher</th>
+      <th scope="col">Author</th>
       <th scope="col">Title</th>
       <th scope="col">Description</th>
       <th scope="col">Date</th>
+      <th scope="col">Likes</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -18,12 +19,13 @@
     @foreach($posts as $post)
     <tr>
       <th scope="row">{{$post->id}}</th>
-      <td>{{$post->publisher}}</td>
+      <td>{{$post->author}}</td>
       <td>{{$post->title}}</td>
       <td>{{$post->body}}</td>
       <td>{{date('M d Y h:i a', strtotime($post->created_at));}}</td>
+      <td>{{$post->likes->where('is_like',1)->count()}}</td>
       <td>
-        <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-success btn-sm">View</a>
+        <a href="{{route('admin-view-post', $post->id)}}" class="btn btn-success btn-sm">View</a>
         <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>
         <a href="{{route('admin-delete-post', $post->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">Delete</a>
       </td>
