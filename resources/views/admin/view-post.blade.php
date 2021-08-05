@@ -8,12 +8,24 @@
 <img style="width: 300px;height: 300px;" id="blah" src="{{asset($post->img)}}" alt="image will display here" />
 @endif
 <br>
-<h1>Title: {{$post->title}}</h1> <br>
-Body : tex{{$post->body}}  <br>
-Author : {{$post->author}}  <br>
+<h1>{{$post->title}}</h1> <br>
+tex{{$post->body}}  <br>
+Author : <i>{{$post->author}}</i>  <br>
 Date : {{date('M d Y h:i a', strtotime($post->created_at));}}  <br><br>
-Likes : <b>{{$post->likes->where('is_like',1)->count()}}</b>&nbsp
-<a href="">Comments: 0</a> 
+<i>Like/s: <b>&nbsp({{$post->likes->where('is_like',1)->count()}})</b></i>&nbsp&nbsp&nbsp&nbsp
+    <i>Comments: <b>({{$post->comments->count()}})</b></i><br>
+    <hr>
+    @foreach($post->comments as $comment)
+    
+    <p><b><u>{{$comment->user_name}}</u></b>: <br>
+    <small>{{date('M d Y h:i a', strtotime($comment->created_at));}}</small><br>
+    "<i>{{$comment->comment}}"</i><br> </p>
+    @endforeach
+    
+    <form action="{{route('admin-comment', $post->id)}}">
+        <textarea placeholder="Comment..." name="comment" id="" cols="50" rows="5"></textarea><br>
+        <button type="submit">Comment</button>
+    </form>
 <br><br>
 <a class="btn btn-danger" href="{{ url()->previous() }}">Back</a>
 @endsection

@@ -12,6 +12,7 @@ class Likes extends Model
         'user_id',
         'post_id',
         'is_like',
+        'author_id',
     ];
 
     public function post(){

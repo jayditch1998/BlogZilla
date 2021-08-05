@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Likes;
+use App\Models\Comment;
 use DB;
 
 class PostController extends Controller
@@ -25,6 +27,7 @@ class PostController extends Controller
     public function postAddPost(Request $request){
         $title = $request->title;
         $body = $request->body;
+        $user_name = auth()->user()->firstName. ' ' . auth()->user()->lastName;;
         $user_id = auth()->user()->id;
         $imgName = time().'.'.$request->img->extension();
         $request->img->move(public_path('images'), $imgName);
@@ -57,6 +60,24 @@ class PostController extends Controller
         DB::table('posts')->where('id',$request->id)->update($updatePost);
 
         return redirect()->route('admin-posts');
+    }
+
+    public function postComment(Request $request, $id){
+        $user_id = auth()->user()->id;
+        $user_name = auth()->user()->firstName.' '.auth()->user()->lastName;
+        $post_id = $id;
+        $comment = $request->comment;
+        if(!$comment){
+            return redirect()->back();
+        }else{
+        $comment = Comment::create([
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'comment' => $comment
+        ]);
+        return redirect()->back();
+        }
     }
 
     public function deletePost($id){

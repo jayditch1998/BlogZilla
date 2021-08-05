@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ViewerController;
+use App\Http\Controllers\admin\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +32,7 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::get('/edit-post/{id}', [PostController:: class, 'editPost'])->name('edit-post');
     Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [PostController:: class, 'deletePost'])->name('delete-post');
+    Route::get('comment/{id}', [PostController:: class, 'postComment'])->name('comment');
 
     Route::get('/authors', [UserController:: class, 'authors'])->name('authors');
     Route::get('/add/author', [UserController:: class, 'addAuthor'])->name('add-author');
@@ -45,6 +47,8 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::get('/edit/user/{id}', [UserController:: class, 'editUser'])->name('edit-user');
     Route::post('/update/user', [UserController:: class, 'updateUser'])->name('update-user');
     Route::get('/user/delete/{id}', [UserController:: class, 'deleteUser'])->name('delete-user');
+
+    Route::get('/', [DashboardController:: class, 'index'])->name('dashboard');
 });
 
 Route::get('/author/login', [AuthorController:: class, 'login'])->name('author-login');
@@ -62,6 +66,7 @@ Route::name('author-')->middleware(['author'])->prefix('author')->group(function
     Route::get('/edit-post/{id}', [AuthorController:: class, 'editPost'])->name('edit-post');
     Route::post('/post-edit-post', [AuthorController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [AuthorController:: class, 'deletePost'])->name('delete-post');
+    Route::get('comment/{id}', [AuthorController:: class, 'postComment'])->name('comment');
 });
 
 Route::get('/login', [ViewerController:: class, 'login'])->name('login');
@@ -72,4 +77,5 @@ Route::middleware(['user'])->group(function() {
     Route::get('/', [ViewerController:: class, 'index'])->name('home');
     Route::get('like/{id}', [ViewerController:: class, 'like'])->name('like');
     Route::get('comment/{id}', [ViewerController:: class, 'postComment'])->name('comment');
+    Route::get('view/{id}', [ViewerController:: class, 'view'])->name('view');
 });

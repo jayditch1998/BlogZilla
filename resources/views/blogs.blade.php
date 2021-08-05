@@ -4,12 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Blogs</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{route('logout')}}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
     @foreach($posts as $post)
     
-    <h3><a href="#">{{$post->title}}</a></h3>
+    <h3><a href="{{route('view', $post->id)}}">{{$post->title}}</a></h3>
     @if($post->img)
     <img style="width: 300px;height: 300px;" id="blah" src="{{asset($post->img)}}" alt="image will display here" /><br>
     @endif
@@ -35,7 +52,11 @@
     <i>Like/s: <b>&nbsp({{$post->likes->where('is_like',1)->count()}})</b></i>&nbsp&nbsp&nbsp&nbsp
     <i>Comments: <b>({{$post->comments->count()}})</b></i><br>
     @foreach($post->comments as $comment)
-    <p>"{{$comment->comment}}"<br> <small><b><i><u>- {{$comment->user_name}}</u></i></b></small> </p>
+    
+    <p><b><u>{{$comment->user_name}}</u></b>: <br>
+    <small><i>{{date('M d Y h:i a', strtotime($comment->created_at));}}</i></small>
+    <br>
+    "<i>{{$comment->comment}}"</i><br> </p>
     @endforeach
     
     <br>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Likes;
 use DB;
 use Illuminate\Support\Facades\Hash;
 use Auth;
@@ -85,8 +87,13 @@ class AuthorController extends Controller
     }
 
     public function dashboard(){
-       
-        return view('author.dashboard');
+        $user_id = auth()->user()->id;
+        $posts = Post::whereNull('deleted_at')->with('likes')->with('comments')->get();
+        $total_likes = Likes::where('author_id', $user_id)->count();
+        $total_authors = User::where('role', '2')->count();
+        $total_posts = Post::where('author_id', $user_id)->whereNull('deleted_at')->count();
+        return view('author.dashboard', compact('posts', 'total_likes', 'total_authors','total_posts'));
+        // return view('author.dashboard');
     }
 
     public function posts(){
@@ -121,7 +128,7 @@ class AuthorController extends Controller
 
         $createPost = Post::create([
             'author_id' => $author_id,
-            'publisher' => $publisher,
+            'author' => $publisher,
             'title' => $title,
             'body' => $body,
             'img' => 'images/'.$imgName,
@@ -145,6 +152,24 @@ class AuthorController extends Controller
         DB::table('posts')->where('id',$request->id)->update($updatePost);
 
         return redirect()->route('author-posts');
+    }
+
+    public function postComment(Request $request, $id){
+        $user_id = auth()->user()->id;
+        $user_name = auth()->user()->firstName.' '.auth()->user()->lastName;
+        $post_id = $id;
+        $comment = $request->comment;
+        if(!$comment){
+            return redirect()->back();
+        }else{
+        $comment = Comment::create([
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'comment' => $comment
+        ]);
+        return redirect()->back();
+        }
     }
 
     public function deletePost($id){

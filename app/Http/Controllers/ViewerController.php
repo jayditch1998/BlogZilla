@@ -28,12 +28,14 @@ class ViewerController extends Controller
 
     public function like(Request $request, $id){
         $user_id = auth()->user()->id;
+        $post = Post::where('id', $id)->first();
         $check = Likes::where('user_id',$user_id)->where('post_id', $id)->first();
         if(!$check){
         $like = Likes::create([
             'user_id' => $user_id,
             'post_id' => $id,
             'is_like' => '1',
+            'author_id'=>$post->author_id,
         ]);
         }else{
             $updateAuthor =[
@@ -58,17 +60,24 @@ class ViewerController extends Controller
         $user_id = auth()->user()->id;
         $user_name = auth()->user()->firstName.' '.auth()->user()->lastName;
         $post_id = $id;
+        
         $comment = $request->comment;
         if(!$comment){
             return redirect()->back();
         }else{
         $comment = Comment::create([
+            
             'post_id' => $post_id,
             'user_id' => $user_id,
             'user_name' => $user_name,
             'comment' => $comment
         ]);
         return redirect()->back();
+        }
     }
+
+    public function view($id){
+        $post = Post::where('id', $id)->with('likes')->with('comments')->first();
+        return view('view-post', compact('post'));
     }
 }

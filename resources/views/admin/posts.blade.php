@@ -8,11 +8,12 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Author</th>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-      <th scope="col">Date</th>
+      <th scope="col"style="width:15%;">Title</th>
+      <th scope="col" style="width:35%;">Description</th>
+      <th scope="col"style="width:15%;">Date</th>
       <th scope="col">Likes</th>
-      <th scope="col">Action</th>
+      <th scope="col">Comments</th>
+      <th scope="col" style="width:14%;">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -24,6 +25,7 @@
       <td>{{$post->body}}</td>
       <td>{{date('M d Y h:i a', strtotime($post->created_at));}}</td>
       <td>{{$post->likes->where('is_like',1)->count()}}</td>
+      <td>{{$post->comments->count()}}</td>
       <td>
         <a href="{{route('admin-view-post', $post->id)}}" class="btn btn-success btn-sm">View</a>
         <a href="{{route('admin-edit-post', $post->id)}}" class="btn btn-primary btn-sm">Edit</a>
