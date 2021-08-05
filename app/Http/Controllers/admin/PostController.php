@@ -66,11 +66,13 @@ class PostController extends Controller
         $user_id = auth()->user()->id;
         $user_name = auth()->user()->firstName.' '.auth()->user()->lastName;
         $post_id = $id;
+        $post = Post::where('id', $id)->first();
         $comment = $request->comment;
         if(!$comment){
             return redirect()->back();
         }else{
         $comment = Comment::create([
+            'author_id' => $post->user_id,
             'post_id' => $post_id,
             'user_id' => $user_id,
             'user_name' => $user_name,
