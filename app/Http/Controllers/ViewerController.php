@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Likes;
+use App\Models\Comment;
 use DB;
 
 class ViewerController extends Controller
@@ -16,7 +17,7 @@ class ViewerController extends Controller
     }
 
     public function index(){
-        $posts = Post::whereNull('deleted_at')->with('likes')->get();
+        $posts = Post::whereNull('deleted_at')->with('likes')->with('comments')->get();
         $likes = Likes::where('is_like', '1')->get();
          
         
@@ -51,5 +52,23 @@ class ViewerController extends Controller
         ];
         DB::table('likes')->where('post_id',$id)->where('user_id', $user_id)->update($updateAuthor);
         return redirect()->back();
+    }
+
+    public function postComment(Request $request, $id){
+        $user_id = auth()->user()->id;
+        $user_name = auth()->user()->firstName.' '.auth()->user()->lastName;
+        $post_id = $id;
+        $comment = $request->comment;
+        if(!$comment){
+            return redirect()->back();
+        }else{
+        $comment = Comment::create([
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'comment' => $comment
+        ]);
+        return redirect()->back();
+    }
     }
 }

@@ -71,4 +71,5 @@ Route::middleware(['user'])->group(function() {
     Route::get('unlike/{id}', [ViewerController:: class, 'unlike'])->name('unlike');
     Route::get('/', [ViewerController:: class, 'index'])->name('home');
     Route::get('like/{id}', [ViewerController:: class, 'like'])->name('like');
+    Route::get('comment/{id}', [ViewerController:: class, 'postComment'])->name('comment');
 });
