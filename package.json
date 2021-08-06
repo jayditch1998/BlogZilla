@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
+        "dev": "mix",
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
@@ -14,7 +14,7 @@
         "axios": "^0.21",
         "bootstrap": "^4.6.0",
         "jquery": "^3.6",
-        "laravel-mix": "^6.0.6",
+        "laravel-mix": "^6.0.27",
         "lodash": "^4.17.19",
         "popper.js": "^1.16.1",
         "postcss": "^8.1.14",
@@ -26,6 +26,9 @@
     },
     "dependencies": {
         "@material-ui/core": "^4.12.3",
-        "@material-ui/icons": "^4.11.2"
+        "@material-ui/icons": "^4.11.2",
+        "apisauce": "^2.1.1",
+        "eslint": "^7.32.0",
+        "eslint-plugin-react": "^7.24.0"
     }
 }

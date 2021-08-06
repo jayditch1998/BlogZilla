@@ -17,8 +17,8 @@ use App\Http\Controllers\admin\DashboardController;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
+Route::get('/react', function () {
+    return view('react');
 });
 Route::get('/admin/login', [UserController:: class, 'login'])->name('admin-login');
 Route::post('admin/post/login', [UserController:: class, 'adminPostLogin'])->name('admin-post-login');

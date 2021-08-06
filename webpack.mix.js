@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const mix = require('laravel-mix');
 
 /*
@@ -11,6 +12,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+if (mix.inProduction()) {
+  mix.js('resources/js/app.js', 'public/js')
     .react()
-    .sass('resources/sass/app.scss', 'public/css');
+    .extract()
+    .sourceMaps()
+    .version();
+} else {
+  mix.js('resources/js/app.js', 'public/js')
+    .react()
+    .extract()
+    .sourceMaps();
+}
