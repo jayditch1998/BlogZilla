@@ -14,7 +14,8 @@ const MyFirstReactPage = ()=>{
         if (!loading) {
             setLoading(true);
             const data = await fetchPerson();
-            setPerson(data.results[0]);
+            console.log('data', data);
+            setPerson(data.results);
             setLoading(false);
         }
     }

@@ -60,7 +60,7 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
 Route::get('/author/login', [AuthorController:: class, 'login'])->name('author-login');
 Route::post('author/post/login', [AuthorController:: class, 'authorPostLogin'])->name('author-post-login');
 Route::get('/logout', [AuthorController:: class, 'authorLogout'])->name('logout');
-Route::get('register', [AuthorController:: class, 'register'])->name('register');
+Route::get('/register', [AuthorController:: class, 'register'])->name('register');
 Route::post('/post/register', [AuthorController:: class, 'postRegister'])->name('post-register');
 
 Route::name('author-')->middleware(['author'])->prefix('author')->group(function() {
