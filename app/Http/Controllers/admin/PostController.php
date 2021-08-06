@@ -59,12 +59,25 @@ class PostController extends Controller
         $body = $request->body;
         $user_id = auth()->user()->id;
 
+        
+
+        if(!$request->img){
         $updatePost =[
             
             'title' => $title,
             'body' => $body
         ];
         DB::table('posts')->where('id',$request->id)->update($updatePost);
+        }else{
+        $imgName = time().'.'.$request->img->extension();
+        $request->img->move(public_path('images'), $imgName);
+        $updatePost =[
+            'img' => 'images/'.$imgName,
+            'title' => $title,
+            'body' => $body
+        ];
+        DB::table('posts')->where('id',$request->id)->update($updatePost);
+        }
 
         return redirect()->route('admin-posts');
     }

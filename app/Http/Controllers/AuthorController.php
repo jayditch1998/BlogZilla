@@ -147,11 +147,23 @@ class AuthorController extends Controller
         $title = $request->title;
         $body = $request->body;
 
-        $updatePost =[
-            'title' => $title,
-            'body' => $body
-        ];
-        DB::table('posts')->where('id',$request->id)->update($updatePost);
+        if(!$request->img){
+            $updatePost =[
+                
+                'title' => $title,
+                'body' => $body
+            ];
+            DB::table('posts')->where('id',$request->id)->update($updatePost);
+            }else{
+            $imgName = time().'.'.$request->img->extension();
+            $request->img->move(public_path('images'), $imgName);
+            $updatePost =[
+                'img' => 'images/'.$imgName,
+                'title' => $title,
+                'body' => $body
+            ];
+            DB::table('posts')->where('id',$request->id)->update($updatePost);
+            }
 
         return redirect()->route('author-posts');
     }

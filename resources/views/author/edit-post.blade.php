@@ -4,7 +4,7 @@
 <br>
 <br>
 <br>
-<form action="{{route('author-post-edit-post')}}" method="POST">
+<form action="{{route('author-post-edit-post')}}" method="POST" enctype="multipart/form-data">
 @csrf
   <div class="mb-3">
       <input type = "hidden" value="{{$post->id}}" name="id">
