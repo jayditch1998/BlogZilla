@@ -17,6 +17,9 @@
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">| {{Auth::user()->firstName}} {{Auth::user()->lastName}} |</a>
+      </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{route('logout')}}">Logout</a>
         </li>
@@ -34,8 +37,15 @@
 <h1>{{$post->title}}</h1> <br>
 tex{{$post->body}}  <br>
 Author : <i>{{$post->author}}</i>  <br>
-Date : {{date('M d Y h:i a', strtotime($post->created_at));}}  <br><br>
-<i>Like/s: <b>&nbsp({{$post->likes->where('is_like',1)->count()}})</b></i>&nbsp&nbsp&nbsp&nbsp
+Date : {{date('M d Y h:i a', strtotime($post->created_at));}}
+<br>
+    @if($post->likes->where('user_id', Auth::user()->id)->where('is_like',1)->count() < 1)
+    <a href="{{route('like', $post->id)}}">Like</a>
+    @else
+    <a href="{{route('unlike', $post->id)}}">Unlike</a>&nbsp <br>
+    @endif
+    <br>
+<i><a>Like/s: <b>&nbsp({{$post->likes->where('is_like',1)->count()}})</b></i>&nbsp&nbsp&nbsp&nbsp
     <i>Comments: <b>({{$post->comments->count()}})</b></i><br>
     @foreach($post->comments as $comment)
     

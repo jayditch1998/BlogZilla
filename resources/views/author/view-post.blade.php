@@ -12,6 +12,13 @@
 tex{{$post->body}}  <br>
 Author : <i>{{$post->author}}</i>  <br>
 Date : {{date('M d Y h:i a', strtotime($post->created_at));}}  <br><br>
+<br>
+    @if($post->likes->where('user_id', Auth::user()->id)->where('is_like',1)->count() < 1)
+    <a href="{{route('author-like', $post->id)}}">Like</a>
+    @else
+    <a href="{{route('author-unlike', $post->id)}}">Unlike</a>&nbsp <br>
+    @endif
+    <br>
 <i>Like/s: <b>&nbsp({{$post->likes->where('is_like',1)->count()}})</b></i>&nbsp&nbsp&nbsp&nbsp
     <i>Comments: <b>({{$post->comments->count()}})</b></i><br>
     <hr>

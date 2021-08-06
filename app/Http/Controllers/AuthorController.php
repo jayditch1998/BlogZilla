@@ -39,10 +39,12 @@ class AuthorController extends Controller
             // 'last_login_ip' => $request->getClientIp()
         ]);
         Auth::login($user);
-        if($user->role == '2'){
+        if($user->role == '2' && $user->status == 'active'){
         return redirect()->route('author-dashboard');
-        }elseif($user->role == '3'){
+        }elseif($user->role == '3' && $user->status == 'active'){
             return redirect()->route('home');
+        }else{
+            return redirect()->back();
         }
         
     }
@@ -90,9 +92,9 @@ class AuthorController extends Controller
         $user_id = auth()->user()->id;
         $posts = Post::whereNull('deleted_at')->with('likes')->with('comments')->get();
         $total_likes = Likes::where('author_id', $user_id)->count();
-        $total_authors = User::where('role', '2')->count();
+        $total_comments = Comment::where('author_id', $user_id)->count();
         $total_posts = Post::where('author_id', $user_id)->whereNull('deleted_at')->count();
-        return view('author.dashboard', compact('posts', 'total_likes', 'total_authors','total_posts'));
+        return view('author.dashboard', compact('posts', 'total_likes', 'total_comments','total_posts'));
         // return view('author.dashboard');
     }
 
@@ -159,6 +161,7 @@ class AuthorController extends Controller
         $user_name = auth()->user()->firstName.' '.auth()->user()->lastName;
         $post_id = $id;
         $comment = $request->comment;
+        $post = Post::where('id', $post_id)->first();
         if(!$comment){
             return redirect()->back();
         }else{
@@ -166,10 +169,41 @@ class AuthorController extends Controller
             'post_id' => $post_id,
             'user_id' => $user_id,
             'user_name' => $user_name,
-            'comment' => $comment
+            'comment' => $comment,
+            'author_id' => $post->author_id,
         ]);
         return redirect()->back();
         }
+    }
+
+    public function like(Request $request, $id){
+        $user_id = auth()->user()->id;
+        $post = Post::where('id', $id)->first();
+        $check = Likes::where('user_id',$user_id)->where('post_id', $id)->first();
+        if(!$check){
+        $like = Likes::create([
+            'user_id' => $user_id,
+            'post_id' => $id,
+            'is_like' => '1',
+            'author_id'=>$post->author_id,
+        ]);
+        }else{
+            $updateAuthor =[
+                'is_like' => '1',
+            ];
+            DB::table('likes')->where('post_id',$id)->where('user_id', $user_id)->update($updateAuthor);
+            
+        }
+        return redirect()->back();
+    }
+    public function unlike(Request $request, $id){
+        $user_id = auth()->user()->id;
+
+        $updateAuthor =[
+            'is_like' => '0',
+        ];
+        DB::table('likes')->where('post_id',$id)->where('user_id', $user_id)->update($updateAuthor);
+        return redirect()->back();
     }
 
     public function deletePost($id){

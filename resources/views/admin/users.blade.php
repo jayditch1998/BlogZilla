@@ -22,8 +22,14 @@
       <td>{{$user->firstName}} {{$user->lastName}}</td>
       <td>{{$user->email}}</td>
       <td>{{$user->mobile}}</td>
-      <td>{{$user->status}}</td>
-      <td>{{$user->lastLogin}}</td>
+      <td>
+      @if($user->status == "active")
+          <a class="btn btn-success btn-sm" title="Active" href="{{route('admin-deactivate-user', $user->id)}}">Actived</a>
+        @else
+        <a class="btn btn-danger btn-sm" title="Not Active" href="{{route('admin-activate-user', $user->id)}}">Deactivated</a>
+        @endif
+      </td>
+      <td>{{date('M d Y h:i a', strtotime($user->lastLogin));}}</td>
       <td><a href="{{route('admin-edit-user', $user->id)}}" class="btn btn-primary btn-sm">Edit</a>
       <a href="{{route('admin-delete-user', $user->id)}}" class="btn btn-primary btn-sm">Delete</a></td>
     </tr>

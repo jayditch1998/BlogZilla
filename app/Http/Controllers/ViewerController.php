@@ -60,6 +60,7 @@ class ViewerController extends Controller
         $user_id = auth()->user()->id;
         $user_name = auth()->user()->firstName.' '.auth()->user()->lastName;
         $post_id = $id;
+        $post = Post::where('id', $post_id)->first();
         
         $comment = $request->comment;
         if(!$comment){
@@ -70,7 +71,8 @@ class ViewerController extends Controller
             'post_id' => $post_id,
             'user_id' => $user_id,
             'user_name' => $user_name,
-            'comment' => $comment
+            'comment' => $comment,
+            'author_id' => $post->author_id,
         ]);
         return redirect()->back();
         }

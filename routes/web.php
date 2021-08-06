@@ -33,6 +33,8 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::post('/post-edit-post', [PostController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [PostController:: class, 'deletePost'])->name('delete-post');
     Route::get('comment/{id}', [PostController:: class, 'postComment'])->name('comment');
+    Route::get('unlike/{id}', [PostController:: class, 'unlike'])->name('unlike');
+    Route::get('like/{id}', [PostController:: class, 'like'])->name('like');
 
     Route::get('/authors', [UserController:: class, 'authors'])->name('authors');
     Route::get('/add/author', [UserController:: class, 'addAuthor'])->name('add-author');
@@ -40,6 +42,8 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::get('/edit/author/{id}', [UserController:: class, 'editAuthor'])->name('edit-author');
     Route::post('/update/author', [UserController:: class, 'updateAuthor'])->name('update-author');
     Route::get('/author/delete/{id}', [UserController:: class, 'deleteAuthor'])->name('delete-author');
+    Route::get('deactivate/author/{id}', [UserController:: class, 'deactivateAuthor'])->name('deactivate-author');
+    Route::get('activate/author/{id}', [UserController:: class, 'activateAuthor'])->name('activate-author');
 
     Route::get('/users', [UserController:: class, 'users'])->name('users');
     Route::get('/add/user', [UserController:: class, 'addUser'])->name('add-user');
@@ -47,6 +51,8 @@ Route::name('admin-')->middleware(['admin'])->prefix('admin')->group(function() 
     Route::get('/edit/user/{id}', [UserController:: class, 'editUser'])->name('edit-user');
     Route::post('/update/user', [UserController:: class, 'updateUser'])->name('update-user');
     Route::get('/user/delete/{id}', [UserController:: class, 'deleteUser'])->name('delete-user');
+    Route::get('deactivate/user/{id}', [UserController:: class, 'deactivateUser'])->name('deactivate-user');
+    Route::get('activate/user/{id}', [UserController:: class, 'activateUser'])->name('activate-user');
 
     Route::get('/', [DashboardController:: class, 'index'])->name('dashboard');
 });
@@ -67,6 +73,8 @@ Route::name('author-')->middleware(['author'])->prefix('author')->group(function
     Route::post('/post-edit-post', [AuthorController:: class, 'postUpdatePost'])->name('post-edit-post');
     Route::get('/post/delete/{id}', [AuthorController:: class, 'deletePost'])->name('delete-post');
     Route::get('comment/{id}', [AuthorController:: class, 'postComment'])->name('comment');
+    Route::get('unlike/{id}', [ViewerController:: class, 'unlike'])->name('unlike');
+    Route::get('like/{id}', [ViewerController:: class, 'like'])->name('like');
 });
 
 Route::get('/login', [ViewerController:: class, 'login'])->name('login');

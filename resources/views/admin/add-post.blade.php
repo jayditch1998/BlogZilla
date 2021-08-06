@@ -17,8 +17,8 @@
 
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Image</label>
-    <input type="file" name="img" class="form-control" onchange="readURL(this);" accept=".png, .jpg, .jpeg">
-    <img id="blah" src="#" alt="image will display here" />
+    <input type="file" name="img" class="form-control" onchange="readURL(this);" accept=".png, .jpg, .jpeg" multiple>
+    <!-- <img id="blah" src="#" alt="image will display here" /> -->
   </div>
 
   <a class="btn btn-danger" href="{{ url()->previous() }}">Cancel</a>

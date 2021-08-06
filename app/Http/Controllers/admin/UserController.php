@@ -41,6 +41,18 @@ class UserController extends Controller
         return view('admin.authors', compact('authors'));
     }
 
+    public function activateAuthor($id){
+        $author = User::find($id);
+        $author->status = 'active';
+        $author->save();
+        return redirect()->route('admin-authors');
+    }
+    public function deactivateAuthor($id){
+        $author = User::find($id);
+        $author->status = 'not active';
+        $author->save();
+        return redirect()->route('admin-authors');
+    }
     public function addAuthor(){
         return view('admin.add-author');
     }
@@ -107,6 +119,20 @@ class UserController extends Controller
     public function addUser(){
         return view('admin.add-user');
     }
+
+    public function activateUser($id){
+        $author = User::find($id);
+        $author->status = 'active';
+        $author->save();
+        return redirect()->route('admin-users');
+    }
+    public function deactivateUser($id){
+        $author = User::find($id);
+        $author->status = 'not active';
+        $author->save();
+        return redirect()->route('admin-users');
+    }
+
 
     public function postAddUser(Request $request){
         $firstName = $request->firstName;

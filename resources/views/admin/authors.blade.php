@@ -22,8 +22,14 @@
       <td>{{$author->firstName}} {{$author->lastName}}</td>
       <td>{{$author->email}}</td>
       <td>{{$author->mobile}}</td>
-      <td>{{$author->status}}</td>
-      <td>{{$author->lastLogin}}</td>
+      <td>
+        @if($author->status == "active")
+          <a class="btn btn-success btn-sm" title="Active" href="{{route('admin-deactivate-author', $author->id)}}">Actived</a>
+        @else
+        <a class="btn btn-danger btn-sm" title="Not Active" href="{{route('admin-activate-author', $author->id)}}">Deactivated</a>
+        @endif
+      </td>
+      <td>{{date('M d Y h:i a', strtotime($author->lastLogin));}}</td>
       <td><a href="{{route('admin-edit-author', $author->id)}}" class="btn btn-primary btn-sm">Edit</a>
       <a href="{{route('admin-delete-author', $author->id)}}" class="btn btn-primary btn-sm">Delete</a></td>
     </tr>

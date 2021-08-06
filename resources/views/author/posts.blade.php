@@ -16,6 +16,7 @@
     </tr>
   </thead>
   <tbody>
+  @if(!$posts->isEmpty())
     @foreach($posts as $post)
     <tr>
       <th scope="row">{{$post->id}}</th>
@@ -31,6 +32,12 @@
     </td>
     </tr>
     @endforeach
+    @else
+    <tr>
+    <td colspan="7">No Record Found.</td>
+    </tr>
+      
+    @endif
   </tbody>
 </table>
 @endsection
