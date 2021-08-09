@@ -1,25 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { AppBar,Toolbar, Typography, FormLabel, Box } from '@material-ui/core';
+import { AppBar,Toolbar, Typography, FormLabel, Box, Link,ThemeProvider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { SwapCalls } from '@material-ui/icons';
+import Swal from 'sweetalert2'
+import api from '../../config/api';
+import { data } from 'jquery';
 
-const useStyles = makeStyles((theme) => ({
-    container:{
-        padding: theme.spacing(3),
-    },
-}));
+function LoginPage(){
+    const [loginInput, setLogin] = useState({
+        email: '',
+        password: '',
+    });
 
-const LoginPage = () => {
-    const classes = useStyles();
-    
+    const handleInput = (e) => {
+        e.persist();
+        setLogin({...loginInput, [e.target.name]: e.target.value});
+    }
+
+    const loginSubmit = (e) => {
+        e.preventDefault();
+        console.log('loginInput', loginInput);
+
+        api.post('/author/post/login', {
+            'email': loginInput.email,
+            'password': loginInput.password,
+        }).then((result) => {
+            console.log('this is the result', result);
+            // window.location.replace('/');
+            if(result.ok && result.data.status === 200){
+                // console.log('success');
+                window.location.replace('/');
+            }
+        });
+    }
     return(
-        <Container className={classes.container} maxWidth="xs">
+        <Container maxWidth="xs">
             <AppBar color="secondary">
                 <Toolbar>
                     <Typography color="initial" variant='body1'>
@@ -27,18 +48,20 @@ const LoginPage = () => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <form>
+            <form onSubmit={loginSubmit} method="POST">
                 <Box mt={8}><h1>LogIn</h1></Box>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <TextField fullWidth label="Email" name="email" size="small" variant="outlined"/>
+                                <TextField fullWidth label="Email" name="email" onChange={handleInput} value={loginInput.email} size="small" variant="outlined"/>
+                                {/* <span>{loginInput.error_list.email}</span> */}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                 fullWidth label="password" name="password" size="small" variant="outlined"
+                                 fullWidth label="password" name="password"  type="password" onChange={handleInput}  value={loginInput.password} size="small" variant="outlined"
                                  />
+                                 {/* <span>{loginInput.error_list.password}</span> */}
                             </Grid>
                         </Grid>
                     </Grid>
@@ -46,17 +69,17 @@ const LoginPage = () => {
                         <Button color="secondary" fullWidth type="submit" variant="contained">
                             Log In
                         </Button>
-                        <Router>
-                            <Link color="inherit" to='/register' >
-                            {'Register'}
+                        <Box display="flex" justifyContent="center" alignItems="center">
+                            <Link color="inherit" href='/register'>
+                               or Register
                             </Link>
-                        </Router>
+                        </Box>
                     </Grid>
                 </Grid>
             </form>
         </Container>
     );
-};
+}
 
 export default LoginPage;
 

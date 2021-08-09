@@ -87,3 +87,4 @@ Route::middleware(['user'])->group(function() {
     Route::get('comment/{id}', [ViewerController:: class, 'postComment'])->name('comment');
     Route::get('view/{id}', [ViewerController:: class, 'view'])->name('view');
 });
+// Route::get('/', [ViewerController:: class, 'index'])->name('home');

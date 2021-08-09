@@ -11,6 +11,7 @@ use DB;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 class AuthorController extends Controller
 {
     public function login(){
@@ -28,24 +29,44 @@ class AuthorController extends Controller
 
     public function authorPostLogin(Request $request)
     {
-        $email = $request->email;
-        $password = $request->password;
-        $user = User::where('email', $email)->first();
-        if(!$user) return redirect()->back();
-        if($user->role == '1') return redirect()->back();
-        if (!Hash::check($password, $user->password)) return redirect()->back();
-        $user->update([
-            'lastLogin' => Carbon::now()->toDateTimeString()
-            // 'last_login_ip' => $request->getClientIp()
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:191',
+            'password' => 'required',
         ]);
-        Auth::login($user);
-        if($user->role == '2' && $user->status == 'active'){
-        return redirect()->route('author-dashboard');
-        }elseif($user->role == '3' && $user->status == 'active'){
-            return redirect()->route('home');
+        if($validator->fails()){
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
         }else{
-            return redirect()->back();
+            $email = $request->email;
+            $password = $request->password;
+            $user = User::where('email', $email)->first();
+            if(!$user || !Hash::check($password, $user->password) || $user->role == '1'){
+                return response()->json([
+                    'status'=>401,
+                    'message'=>'Invalid Credentials',
+                ]);
+            }else{
+                $user->update([
+                    'lastLogin' => Carbon::now()->toDateTimeString()
+                    // 'last_login_ip' => $request->getClientIp()
+                ]);
+                Auth::login($user);
+                return response()->json([
+                    'status'=>200,
+                    'message'=>'Success',
+                ]);
+                Auth::login($user);
+                // if($user->role == '2' && $user->status == 'active'){
+                // return redirect()->route('author-dashboard');
+                // }elseif($user->role == '3' && $user->status == 'active'){
+                //     return redirect()->route('home');
+                // }
+            }
+            
+            
         }
+        
         
     }
 

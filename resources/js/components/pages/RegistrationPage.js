@@ -4,10 +4,9 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { AppBar,Toolbar, Typography, FormLabel, Box, InputLabel, Select, NativeSelect } from '@material-ui/core';
+import { AppBar,Toolbar, Typography, FormLabel, Box, InputLabel, Select, NativeSelect, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -73,17 +72,20 @@ const LoginPage = () => {
                         <Button color="secondary" fullWidth type="submit" variant="contained">
                             Register
                         </Button>
-                        <Router>
-                            <Link color="inherit" to='/register' >
-                            {'Login'}
+                        <Box display="flex" justifyContent="center" alignItems="center">
+                            <Link color="inherit" href='/login'>
+                               or LogIn
                             </Link>
-                        </Router>
+                        </Box>
                     </Grid>
                 </Grid>
             </form>
         </Container>
     );
 };
+// function Login() {
+//     return <h2>Home</h2>;
+//   }
 
 export default LoginPage;
 

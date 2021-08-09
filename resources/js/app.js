@@ -16,4 +16,5 @@ require('./components/Example');
 // require('./components/pages/MyFirstReactPage');
 require('./components/pages/LoginPage');
 require('./components/pages/RegistrationPage');
+require('./components/pages/BlogsPage');
 

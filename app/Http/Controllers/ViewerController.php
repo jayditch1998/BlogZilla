@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Likes;
 use App\Models\Comment;
 use DB;
+use Illuminate\Support\Facades\Validator;
 
 class ViewerController extends Controller
 {
@@ -20,10 +21,12 @@ class ViewerController extends Controller
         $posts = Post::whereNull('deleted_at')->with('likes')->with('comments')->get();
         $likes = Likes::where('is_like', '1')->get();
          
-        
+        return response()->json([
+            'status' => 200,
+            'blogs' => $posts
+        ]);
         // dd($likes);
-        
-        return view('blogs', compact('posts', 'likes'));
+        // return view('blogs', compact('posts', 'likes'));
     }
 
     public function like(Request $request, $id){
