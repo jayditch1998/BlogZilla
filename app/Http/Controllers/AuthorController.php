@@ -102,10 +102,16 @@ class AuthorController extends Controller
             'password' => $hash,
         ]);
         Auth::login($user);
-        if($role == 2){
-            return redirect()->route('author-dashboard');
+        if($role == '2'){
+            return response()->json([
+                'status'=>200,
+                'message'=>'2',
+            ]);
         }else{
-        return redirect()->route('home');
+            return response()->json([
+                'status'=>200,
+                'message'=>'3',
+            ]);
         }
     }
 

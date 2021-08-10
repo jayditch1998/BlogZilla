@@ -17,16 +17,22 @@ class ViewerController extends Controller
         return view('login');
     }
 
-    public function index(){
+    public function data(){
         $posts = Post::whereNull('deleted_at')->with('likes')->with('comments')->get();
-        $likes = Likes::where('is_like', '1')->get();
          
-        return response()->json([
-            'status' => 200,
+        return response()->json(
+            array
+            (
             'blogs' => $posts
-        ]);
-        // dd($likes);
-        // return view('blogs', compact('posts', 'likes'));
+            )
+        );
+        dd($likes);
+        
+    }
+
+    public function index () {
+        $posts = Post::whereNull('deleted_at')->with('likes')->with('comments')->get();
+        return view('blogs', compact('posts'));
     }
 
     public function like(Request $request, $id){
