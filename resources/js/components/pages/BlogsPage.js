@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { CardMedia, AppBar, Collapse, Toolbar, Typography, FormLabel, Card, Box, Link, Button, Grid, Container, TextField, Paper, CardHeader, Avatar, CardContent, CardActions, IconButton} from '@material-ui/core';
 // import { LikeIcon, CommentIcon} from '@material-ui/icons';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import CommentIcon from '@material-ui/icons/Comment';
+import PersonIcon from '@material-ui/icons/Person';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../config/api';
 import { blue } from '@material-ui/core/colors';
@@ -45,6 +45,7 @@ function BlogsPage() {
             setBlogs(response.data.blogs)
         });
     }
+    const userName =  document.querySelector("meta[name='user-name']").getAttribute('content');
 
     useEffect(() => {
         fetchBlogs()
@@ -58,6 +59,9 @@ function BlogsPage() {
                         BlogZilla
                     </Typography>
                     <Box className={classes.logout}>
+                        <Button color="inherit">
+                            <PersonIcon></PersonIcon>{userName}
+                        </Button>
                         <Button href="/logout" color="inherit">
                         LogOut
                         </Button>

@@ -46,7 +46,26 @@ class AuthorController extends Controller
                     'status'=>401,
                     'message'=>'Invalid Credentials',
                 ]);
-            }else{
+            }
+            else if($user->role == '2' && $user->status == 'active'){
+                Auth::login($user);
+                $user->update([
+                    'lastLogin' => Carbon::now()->toDateTimeString()
+                    // 'last_login_ip' => $request->getClientIp()
+                ]);
+                
+                return response()->json([
+                    'status'=>200,
+                    'message'=>'2',
+                ]);
+                // Auth::login($user);
+                // if($user->role == '2' && $user->status == 'active'){
+                // return redirect()->route('author-dashboard');
+                // }elseif($user->role == '3' && $user->status == 'active'){
+                //     return redirect()->route('home');
+                // }
+            }
+            else if($user->role == '3' && $user->status == 'active'){
                 $user->update([
                     'lastLogin' => Carbon::now()->toDateTimeString()
                     // 'last_login_ip' => $request->getClientIp()
@@ -54,14 +73,8 @@ class AuthorController extends Controller
                 Auth::login($user);
                 return response()->json([
                     'status'=>200,
-                    'message'=>'Success',
+                    'message'=>'3',
                 ]);
-                Auth::login($user);
-                // if($user->role == '2' && $user->status == 'active'){
-                // return redirect()->route('author-dashboard');
-                // }elseif($user->role == '3' && $user->status == 'active'){
-                //     return redirect()->route('home');
-                // }
             }
             
             

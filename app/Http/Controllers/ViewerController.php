@@ -26,7 +26,7 @@ class ViewerController extends Controller
             'blogs' => $posts
             )
         );
-        dd($likes);
+        // dd($likes);
         
     }
 
@@ -39,6 +39,7 @@ class ViewerController extends Controller
         $user_id = auth()->user()->id;
         $post = Post::where('id', $id)->first();
         $check = Likes::where('user_id',$user_id)->where('post_id', $id)->first();
+        // $checkLike= Likes::where('user_id',$user_id)->where('post_id', $id)->
         if(!$check){
         $like = Likes::create([
             'user_id' => $user_id,
@@ -46,6 +47,11 @@ class ViewerController extends Controller
             'is_like' => '1',
             'author_id'=>$post->author_id,
         ]);
+        }else if($check->is_like == 1){
+            $updateAuthor =[
+                'is_like' => '0',
+            ];
+            DB::table('likes')->where('post_id',$id)->where('user_id', $user_id)->update($updateAuthor);
         }else{
             $updateAuthor =[
                 'is_like' => '1',
@@ -54,6 +60,11 @@ class ViewerController extends Controller
             
         }
         return redirect()->back();
+        // return response()->json([
+        //     'status'=>200,
+        //     'message'=>'',
+        // ]);
+
     }
     public function unlike(Request $request, $id){
         $user_id = auth()->user()->id;

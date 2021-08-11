@@ -21,10 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', [PostController::class, 'get']);
-Route::delete('/{id}', [PostController::class, 'delete']);
-Route::put('/{id}', [PostController::class, 'put']);
-Route::post('/post', [PostController::class, 'post']);
+// Route::get('/', [PostController::class, 'get']);
+// Route::delete('/{id}', [PostController::class, 'delete']);
+// Route::put('/{id}', [PostController::class, 'put']);
+// Route::post('/post', [PostController::class, 'post']);
 
 // Route::get('/blogs/', );
 

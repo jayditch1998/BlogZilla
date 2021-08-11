@@ -42,11 +42,11 @@
     <br>
     <small>Posted: {{date('M d Y h:i a', strtotime($post->created_at));}}</small>
     <br>
-    <!-- @if($post->likes->where('user_id', Auth::user()->id)->where('is_like',1)->count() < 1) -->
+    @if($post->likes->where('user_id', Auth::user()->id)->where('is_like',1)->count() < 1)
     <a href="{{route('like', $post->id)}}">Like</a>
-    <!-- @else -->
+    @else
     <a href="{{route('unlike', $post->id)}}">Unlike</a>&nbsp
-    <!-- @endif -->
+    @endif
     <input type="hidden" name="id" value="{{$post->id}}">
     &nbsp&nbsp&nbsp&nbsp
     <!-- <a href="#">Comments</a> -->

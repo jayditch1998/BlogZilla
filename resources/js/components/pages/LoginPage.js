@@ -25,7 +25,7 @@ function LoginPage(){
 
     const loginSubmit = (e) => {
         e.preventDefault();
-        console.log('loginInput', loginInput);
+        // console.log('loginInput', loginInput);
 
         api.post('/author/post/login', {
             'email': loginInput.email,
@@ -36,6 +36,8 @@ function LoginPage(){
             if(result.ok && result.data.status === 200){
                 // console.log('success');
                 window.location.replace('/');
+            }else if(result.data.status === 200 && result.data.message === "2"){
+                window.location.replace('/author');
             }
         });
     }
