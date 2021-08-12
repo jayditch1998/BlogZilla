@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Link, Badge, Divider, Grid, Paper, Box, TextField, Avatar, IconButton, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography } from '@material-ui/core';
+import { CardActionArea, Button, Link, Badge, Divider, Grid, Paper, Box, TextField, Avatar, IconButton, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Comment as CommentIcon, ThumbUpAlt as ThumbUpAltIcon } from '@material-ui/icons';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import { blue } from '@material-ui/core/colors';
 import clsx from 'clsx';
+import api from '../config/api';
+import { truncate } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -49,50 +51,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function BlogPost (props) {
-    const userID =  document.querySelector("meta[name='user-id']").getAttribute('content');
-    const userName =  document.querySelector("meta[name='user-name']").getAttribute('content');
     const classes = useStyles();
     const { blog } = props;
     const [expanded, setExpanded] = useState(false);
-    const [ isLiked, setIsLiked] = useState(false);
+    const [ numberOfLikes, setNumberOfLikes ] = useState(0);
+    const [ userLikedPost, setUserLikedPost ] = useState(false);
+    const [ numberOfComments, setNumberOfComments ] = useState(0);
+    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState([]);
+    // const [, setComments] = useState([]);
+
+
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' };
-    const today  = new Date();
+    const userID =  document.querySelector("meta[name='user-id']").getAttribute('content');
+    const userName =  document.querySelector("meta[name='user-name']").getAttribute('content');
+
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    function countLikes () {
-        let count = 0;
-        blog.likes.map((data) => {
-            if(parseInt(data.is_like) === 1){
-                count ++;
-            }
-        })
-        return count;
-        
-    }
+    const onPressLikeButton = () =>{
+        api.get(`/like/${blog.id}`).then((result) => {
+            console.log('liked result', result);
 
-    const liked = () => {
-        blog.likes.map((data) => {
-            if(data.user_id == userID && parseInt(data.is_like) == 1){
-                console.log('yes');
-                setIsLiked(true);
-            }else{
-                setIsLiked(false)
+            if (result.data.message === 'unliked') {
+                setNumberOfLikes((currentLikes) => currentLikes - 1);
+                if (userLikedPost) {
+                    setUserLikedPost(false);
+                }
+            } else if (result.data.message === 'liked') {
+                setNumberOfLikes((currentLikes) => currentLikes + 1);
+                setUserLikedPost(true);
             }
-        })
+        });
     }
-    // const check = blog.
-    // console.log(blog.likes.user_id);
-    // const countLikes = (params) => {
-    //     return 0;
-    // }
-    // useEffect(() => {
-    //     liked();
-    // },[]);
-
-    const [comment, setComment] = useState("");
+    
 
     const handleInput = (e) => {
         e.persist();
@@ -101,63 +95,99 @@ function BlogPost (props) {
     
     const submitComment = (e) => {
         e.preventDefault();
-        console.log('test submit', comment);
+        console.log('Comment: ', comment);
 
-
-        api.post('/post/register', {
+        api.get(`/comment/${blog.id}`, {
             'comment' : comment.comment,
         }).then((result) => {
             console.log('resuklt', result);
+            if(result.data.message === 'submitted'){
+                setNumberOfComments((currentNumberComments) => currentNumberComments +1);
+                // setComments((currentComments) => currentComments.push(comment));
+            }
         });
-
+        // console.log(blog.comments)
     }
+
+    // const viewDetails = () => {
+    //     api.get(`api/view/${blog.id}`).then((response) => {
+    //         // console.log(response.data.blog.comments);
+    //         setBlog(response.data.blog)
+    //     });
+    // }
+
+    useEffect(() => {
+        // get blog and count number likes 
+        // check also if the current user liked the post 
+        let count = 0;
+        let didUserLikeBlogs = false;
+        // console.log(blog)
+        blog.likes.map((data) => {
+            if(parseInt(data.is_like) === 1){
+                count++;
+            }
+
+            if(data.user_id == userID && parseInt(data.is_like) == 1){
+                didUserLikeBlogs = true;
+            }
+        });
+        let numberOfComments = blog.comments.length;
+        let comments = blog.comments;
+        setNumberOfLikes(count)
+        setUserLikedPost(didUserLikeBlogs)
+        // save number of like in the "numberOfLikes" state
+        // save true/false in the "userLikedPost" state 
+        setNumberOfComments(numberOfComments)
+        // console.log(comments)
+        // setComments(comments)
+
+    }, [])
+   
     return (
         <Card className={classes.root}>
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="author" title={blog.author} className={classes.avatar}>
-                        {(blog.author).charAt(0)}
-                    </Avatar>
+            <CardActionArea href={`view/${blog.id}`}>
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="author" title={blog.author} className={classes.avatar}>
+                            {(blog.author).charAt(0)}
+                        </Avatar>
+                    }
+                    title={blog.title}
+                    // titleTypographyProps={blog.title === 'Good Dog' ? {
+                    //     variant: 'h2',
+                    //     style: {
+                    //         color: 'red'
+                    //     }
+                    // } : {
+                    //     variant: 'h6'
+                    // }}
+                    subheader={new Date(blog.created_at).toLocaleDateString("en-US", options)}
+                />
+                
+                {
+                    blog.img ? (
+                        <CardMedia
+                            className={classes.image}
+                            image={blog.img}
+                            title={blog.author}
+                        />
+                    ) : (
+                        <Typography variant='body1'></Typography>
+                    )
                 }
-                title={blog.title}
-                // titleTypographyProps={blog.title === 'Good Dog' ? {
-                //     variant: 'h2',
-                //     style: {
-                //         color: 'red'
-                //     }
-                // } : {
-                //     variant: 'h6'
-                // }}
-                subheader={new Date(blog.created_at).toLocaleDateString("en-US", options)}
-            />
-            {
-                blog.img ? (
-                    <CardMedia
-                        className={classes.image}
-                        image={blog.img}
-                        title={blog.author}
-                    />
-                ) : (
-                    <Typography variant='body1'></Typography>
-                )
-            }
+            </CardActionArea>
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
                 {blog.body}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <Link href={`/like/${blog.id}`}>
-                        <Badge color="secondary" badgeContent={countLikes()} showZero>
+                <IconButton onClick={onPressLikeButton} aria-label="like post">
+                        <Badge color="secondary" badgeContent={numberOfLikes}>
                             <ThumbUpAltIcon
-                                style={{color: isLiked ? 'red' : 'grey'}}
+                                style={{color: userLikedPost ? 'red' : 'grey'}}
                             />
                         </Badge>
-                        {/* <Badge color="secondary" badgeContent={1} showZero>
-                            <ThumbUpAltOutlinedIcon />
-                        </Badge> */}
-                    </Link>
                 </IconButton>
                 <IconButton 
                     className={clsx(classes.expand, {
@@ -167,7 +197,7 @@ function BlogPost (props) {
                     aria-expanded={expanded}
                     aria-label="show coemment"
                 >
-                    <Badge color="secondary" badgeContent={blog.comments.length} showZero>
+                    <Badge color="secondary" badgeContent={numberOfComments}>
                         <CommentIcon />
                     </Badge>
                 </IconButton>
@@ -179,31 +209,26 @@ function BlogPost (props) {
                 blog.comments.map((comment) =>(
                     
                     <Typography>
-                        {/* <Box fontWeight="fontWeightBold" className={classes.commentor} variant="p">
-                            {comment.user_name}
-                        </Box> */}
-                    
-                    <Paper style={{ padding: "10px 20px" }}>
-                        <Grid container wrap="nowrap" spacing={2}>
-                        <Grid item>
-                            <Avatar aria-label="author" title={blog.author} className={classes.avatar}>
-                            {(comment.user_name).charAt(0)}
-                            </Avatar>
-                        </Grid>
-                        <Grid justifyContent="left" item xs zeroMinWidth>
-                            <p className={classes.commentor}>{comment.user_name}</p>
-                            <p className={classes.comments}>
-                            "{comment.comment}"{" "}
-                            </p>
-                            <p className={classes.comment_time}>
-                            {new Date(comment.created_at).toLocaleDateString("en-US", options)}
-                            </p>
-                        </Grid>
-                        </Grid>
-                        <Divider variant="fullWidth" style={{ margin: "10px 0" }} />
-                    </Paper>
+                        <Paper style={{ padding: "10px 20px" }}>
+                            <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar aria-label="author" title={blog.author} className={classes.avatar}>
+                                {(comment.user_name).charAt(0)}
+                                </Avatar>
+                            </Grid>
+                            <Grid justifyContent="left" item xs zeroMinWidth>
+                                <p className={classes.commentor}>{comment.user_name}</p>
+                                <p className={classes.comments}>
+                                "{comment.comment}"{" "}
+                                </p>
+                                <p className={classes.comment_time}>
+                                {new Date(comment.created_at).toLocaleDateString("en-US", options)}
+                                </p>
+                            </Grid>
+                            </Grid>
+                            <Divider variant="fullWidth" style={{ margin: "10px 0" }} />
+                        </Paper>
                     </Typography>
-                    
                 ))
                 }
                 <form onSubmit={submitComment} method="POST">
@@ -215,10 +240,10 @@ function BlogPost (props) {
                         fullWidth
                         name="comment"
                         onChange={handleInput} value={comment.comment}
+                        required
                     />
-                    <Button fullWidth variant="contained" color="primary" type="submit">Comment</Button>
+                    <Button fullWidth variant="contained" color="primary" type="submit">Submit Comment</Button>
                 </form>
-                
                 </CardContent>
             </Collapse>
         </Card>

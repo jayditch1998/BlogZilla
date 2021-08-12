@@ -9,6 +9,7 @@ import api from '../../config/api';
 import { blue } from '@material-ui/core/colors';
 import clsx from 'clsx';
 import BlogPost from '../BlogPost';
+// import ViewBlogPost from '../ViewBlogPage';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -39,16 +40,26 @@ const useStyles = makeStyles((theme) => ({
 function BlogsPage() {
     const classes = useStyles();
     const [blogs, setBlogs] = useState([]);
+    const [viewBlog, setViewBlog] = useState([]);
 
     const fetchBlogs = () => {
         api.get('/api/blogs').then((response) => {
             setBlogs(response.data.blogs)
         });
     }
-    const userName =  document.querySelector("meta[name='user-name']").getAttribute('content');
 
+    const fetchBlog = () => {
+        api.get('api/view/1').then((response) => {
+            // console.log(response.data.blog.comments);
+            setViewBlog(response.data.blog)
+
+        });
+    }
+    const userName =  document.querySelector("meta[name='user-name']").getAttribute('content');
+    console.log(blogs)
     useEffect(() => {
         fetchBlogs()
+        
     }, []);
 
     return(
@@ -76,6 +87,14 @@ function BlogsPage() {
                     ))
                 ) : null
             }
+            {/* {
+                viewBlog !== null ? 
+                        <ViewBlogPost viewBlog={viewBlog} />
+                        // console.log(viewBlog)
+                 : null
+                //  {console.log(viewBlog)}
+            }
+             */}
         </Container>
     );
 };

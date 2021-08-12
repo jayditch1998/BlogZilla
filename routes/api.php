@@ -16,6 +16,7 @@ use App\Http\Controllers\ViewerController;
 */
 
 Route::get('/blogs', [ViewerController:: class, 'data'])->name('home');
+Route::get('/view/{id}', [ViewerController:: class, 'viewAPI']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

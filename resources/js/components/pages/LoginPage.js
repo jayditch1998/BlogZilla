@@ -33,10 +33,10 @@ function LoginPage(){
         }).then((result) => {
             console.log('this is the result', result);
             // window.location.replace('/');
-            if(result.ok && result.data.status === 200){
+            if(result.ok && result.data.status === 200 && result.data.message === '3'){
                 // console.log('success');
                 window.location.replace('/');
-            }else if(result.data.status === 200 && result.data.message === "2"){
+            }else if(result.data.status === 200 && result.data.message === '2'){
                 window.location.replace('/author');
             }
         });

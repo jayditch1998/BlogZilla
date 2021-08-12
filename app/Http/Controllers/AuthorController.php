@@ -48,12 +48,12 @@ class AuthorController extends Controller
                 ]);
             }
             else if($user->role == '2' && $user->status == 'active'){
-                Auth::login($user);
+                
                 $user->update([
                     'lastLogin' => Carbon::now()->toDateTimeString()
                     // 'last_login_ip' => $request->getClientIp()
                 ]);
-                
+                Auth::login($user);
                 return response()->json([
                     'status'=>200,
                     'message'=>'2',

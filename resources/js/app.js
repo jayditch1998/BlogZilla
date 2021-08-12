@@ -17,4 +17,5 @@ require('./components/Example');
 require('./components/pages/LoginPage');
 require('./components/pages/RegistrationPage');
 require('./components/pages/BlogsPage');
+require('./components/pages/ViewBlogPage');
 
