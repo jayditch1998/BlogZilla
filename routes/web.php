@@ -66,6 +66,7 @@ Route::post('/post/register', [AuthorController:: class, 'postRegister'])->name(
 Route::name('author-')->middleware(['author'])->prefix('author')->group(function() {
     Route::get('/', [AuthorController:: class, 'dashboard'])->name('dashboard');
     Route::get('/posts', [AuthorController:: class, 'posts'])->name('posts');
+    Route::get('/getPosts', [AuthorController:: class, 'getPosts']);
     Route::get('add/post', [AuthorController:: class, 'addPost'])->name('add-post');
     Route::post('/post-add-post', [AuthorController:: class, 'postAddPost'])->name('post-add-post');
     Route::get('/view-post/{id}', [AuthorController:: class, 'viewPost'])->name('view-post');

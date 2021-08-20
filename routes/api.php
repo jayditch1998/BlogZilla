@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ViewerController;
+use App\Http\Controllers\AuthorController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,6 +18,8 @@ use App\Http\Controllers\ViewerController;
 
 Route::get('/blogs', [ViewerController:: class, 'data'])->name('home');
 Route::get('/view/{id}', [ViewerController:: class, 'viewAPI']);
+
+Route::get('/author/posts', [AuthorController:: class, 'posts']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

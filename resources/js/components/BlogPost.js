@@ -95,9 +95,10 @@ function BlogPost (props) {
     
     const submitComment = (e) => {
         e.preventDefault();
+        
         console.log('Comment: ', comment);
-
-        api.get(`/comment/${blog.id}`, {
+        // blog.push(comment);
+        api.get(`/comment/${blog.id}`, {    
             'comment' : comment.comment,
         }).then((result) => {
             console.log('resuklt', result);
@@ -105,6 +106,9 @@ function BlogPost (props) {
                 setNumberOfComments((currentNumberComments) => currentNumberComments +1);
                 // setComments((currentComments) => currentComments.push(comment));
             }
+            document.getElementById('submitMyComment').defaultValue = '';
+            setComment('');
+           
         });
         // console.log(blog.comments)
     }
@@ -115,6 +119,11 @@ function BlogPost (props) {
     //         setBlog(response.data.blog)
     //     });
     // }
+
+    const handleSubmitComment = () => {
+        
+        // onChange={handleInput} value={comment.comment}
+    }
 
     useEffect(() => {
         // get blog and count number likes 
@@ -132,7 +141,7 @@ function BlogPost (props) {
             }
         });
         let numberOfComments = blog.comments.length;
-        let comments = blog.comments;
+        let commentators = blog.comments;
         setNumberOfLikes(count)
         setUserLikedPost(didUserLikeBlogs)
         // save number of like in the "numberOfLikes" state
@@ -140,6 +149,9 @@ function BlogPost (props) {
         setNumberOfComments(numberOfComments)
         // console.log(comments)
         // setComments(comments)
+        // let 
+        setComments(commentators)
+        console.log('commentators', commentators)
 
     }, [])
    
@@ -206,7 +218,7 @@ function BlogPost (props) {
                 <CardContent>
                 <Typography paragraph>Comments:</Typography>
                 {
-                blog.comments.map((comment) =>(
+                comments.map((comment) =>(
                     
                     <Typography>
                         <Paper style={{ padding: "10px 20px" }}>
@@ -241,8 +253,9 @@ function BlogPost (props) {
                         name="comment"
                         onChange={handleInput} value={comment.comment}
                         required
+                        id="submitMyComment"
                     />
-                    <Button fullWidth variant="contained" color="primary" type="submit">Submit Comment</Button>
+                    <Button onClick={handleSubmitComment} fullWidth variant="contained" color="primary" type="submit">Submit Comment</Button>
                 </form>
                 </CardContent>
             </Collapse>

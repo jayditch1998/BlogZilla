@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 function BlogsPage() {
     const classes = useStyles();
     const [blogs, setBlogs] = useState([]);
-    const [viewBlog, setViewBlog] = useState([]);
+
 
     const fetchBlogs = () => {
         api.get('/api/blogs').then((response) => {
@@ -48,13 +48,6 @@ function BlogsPage() {
         });
     }
 
-    const fetchBlog = () => {
-        api.get('api/view/1').then((response) => {
-            // console.log(response.data.blog.comments);
-            setViewBlog(response.data.blog)
-
-        });
-    }
     const userName =  document.querySelector("meta[name='user-name']").getAttribute('content');
     console.log(blogs)
     useEffect(() => {

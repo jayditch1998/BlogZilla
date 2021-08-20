@@ -11,6 +11,7 @@ use DB;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use Carbon\Carbon;
+use Session;
 use Illuminate\Support\Facades\Validator;
 class AuthorController extends Controller
 {
@@ -54,6 +55,8 @@ class AuthorController extends Controller
                     // 'last_login_ip' => $request->getClientIp()
                 ]);
                 Auth::login($user);
+                $user = Auth::user();
+                Session::put('id', $user->id);
                 return response()->json([
                     'status'=>200,
                     'message'=>'2',
@@ -139,14 +142,23 @@ class AuthorController extends Controller
     }
 
     public function posts(){
-        $user_id = auth()->user()->id;
-        // $publisher = auth()->user()->firstName.' '.auth()->user()->lastName;
-
-        // dd($publisher);
-        // dd($user_id);
-        $posts = Post::where('author_id', $user_id)->with('likes')->get();
+        $user = Auth::user();
+        $posts = Post::where('author_id', $user->id)->with('likes')->get();
         // dd($posts);
         return view('author.posts', compact('posts'));
+    }
+
+
+    public function getPosts(){
+        $user_id = auth()->user()->id;
+        $posts = Post::where('author_id', $user_id)->with('comments')->with('likes')->get();
+        // dd($posts);
+        return response()->json(
+            array
+            (
+            'blogs' => $posts
+            )
+        );
     }
 
     public function viewPost($id){
@@ -262,7 +274,7 @@ class AuthorController extends Controller
         $post = Post::where('id', $id)->first();
         $post->delete();
 
-        return redirect()->route('author-posts');
+        return redirect()->back();
     }
 
 }
